@@ -35,7 +35,7 @@ label{display:block;font-weight:600;font-size:.9rem;margin:12px 0 4px;color:var(
 .ibtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .ibtn:hover{border-color:var(--mute)}
 [data-theme=light] .i-sun,[data-theme=dark] .i-moon{display:none}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px;width:100%}
 .brand{font-weight:600;font-size:1.1rem;letter-spacing:-.01em}
 .topr{display:flex;gap:8px}
 
@@ -46,22 +46,22 @@ label{display:block;font-weight:600;font-size:.9rem;margin:12px 0 4px;color:var(
 .btn:disabled{opacity:.6;cursor:default}
 .auth-theme{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));right:20px;z-index:5}
 
-#dash:not(.hide){display:flex;flex-direction:column;min-height:100dvh;padding-bottom:96px}
-.dash-center{margin:auto;padding:16px 0;width:100%;max-width:680px;text-align:center}
-.hero{padding:12px 0 32px}
+#dash:not(.hide){display:flex;flex-direction:column;min-height:100dvh;padding-bottom:100px}
+.dash-center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;width:100%;padding:16px 0}
+.hero{padding:0 0 28px;width:100%}
 .eyebrow{color:var(--mute);font-size:1.05rem}
-.big{font-size:clamp(3rem,13vw,6rem);font-weight:300;letter-spacing:-.03em;line-height:1.05;margin-top:6px;font-variant-numeric:lining-nums tabular-nums;overflow-wrap:anywhere}
+.big{font-size:clamp(2.8rem,12vw,5.6rem);font-weight:300;letter-spacing:-.03em;line-height:1.05;margin-top:6px;font-variant-numeric:lining-nums tabular-nums;overflow-wrap:anywhere}
 .big .cur{font-size:.3em;font-weight:400;letter-spacing:0;color:var(--mute);margin-right:.3em}
 .big.neg{color:var(--down)}
-.ind{display:grid;gap:0 32px;grid-template-columns:repeat(2,minmax(0,1fr));text-align:left}
-.ic{border-top:1px solid var(--line);padding:16px 0 18px}
-.ic .mute{font-size:1rem}
-.ic b{display:block;font-size:1.75rem;font-weight:400;letter-spacing:-.01em;margin:2px 0 6px;font-variant-numeric:lining-nums tabular-nums;overflow-wrap:anywhere}
-.tr{display:flex;align-items:center;gap:8px;font-size:.95rem;flex-wrap:wrap}
+.ind{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;max-width:640px;margin:0 auto;text-align:left}
+.ic{min-width:0;padding:14px 16px}
+.ic .mute{font-size:.95rem}
+.ic b{display:block;font-size:clamp(1.2rem,4.5vw,1.75rem);font-weight:400;letter-spacing:-.01em;margin:4px 0 6px;font-variant-numeric:lining-nums tabular-nums;overflow-wrap:anywhere}
+.tr{display:flex;align-items:center;gap:6px;font-size:.88rem;flex-wrap:wrap}
 .tr .up{color:var(--up)}.tr .down{color:var(--down)}
 .tr .up,.tr .down{display:inline-flex;align-items:center;gap:5px;font-weight:600}
 .tr .flat{color:var(--mute)}
-.more{display:inline-block;margin-top:20px;color:var(--mute);text-decoration:none}
+.more{display:inline-block;margin-top:24px;color:var(--mute);text-decoration:none}
 .more:hover{color:var(--accent)}
 
 .fab{position:fixed;z-index:20;width:60px;height:60px;border-radius:18px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.35);right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));transition:transform .15s}
@@ -121,7 +121,7 @@ th{border-top:0;color:var(--mute);font-weight:400}
 dialog{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:16px;width:min(92vw,380px)}
 dialog::backdrop{background:rgba(0,0,0,.55)}
 .acts{display:flex;gap:8px}
-@media(min-width:640px){.ind{gap:0 40px}.stats{grid-template-columns:repeat(4,1fr)}.view{padding:24px 32px 130px}}
+@media(min-width:640px){.ind{gap:20px}.stats{grid-template-columns:repeat(4,1fr)}.view{padding:24px 32px 130px}}
 @media(prefers-reduced-motion:no-preference){.meter i,.track i{transition:width .4s}}
 @media(prefers-reduced-motion:reduce){.fab{transition:none}}
 </style>
@@ -288,7 +288,7 @@ const pickCat = (list, t) => (list.find(c => c[1].test(t)) || ["Lainnya"])[0];
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 function parseAmount(t) {
-  const re = /(\d+(?:[.,]\d+)*)\s*(rb|ribu|k|jt|juta)?\b/gi;
+  const re = /(\d+(?:[.,]\d+)*)\s*(rb|ribu|k|jt|juta)?/gi;
   const found = [];
   let m;
   while ((m = re.exec(t))) {
@@ -307,8 +307,8 @@ function parseAmount(t) {
 
 function potName(text, kind) {
   const n = text.replace(/^\s*(pos\s+)?(anggaran|tabungan)\s+/i, "")
-    .replace(/\d[\d.,]*\s*(rb|ribu|k|jt|juta)?\b/gi, "")
-    .replace(/\b(per\s+bulan|sebulan|bulanan|sebesar|rp)\b/gi, "")
+    .replace(/\d[\d.,]*\s*(rb|ribu|k|jt|juta)?/gi, "")
+    .replace(/(per\s+bulan|sebulan|bulanan|sebesar|rp)/gi, "")
     .replace(/\s+/g, " ").trim();
   if (!n) return "";
   if (kind === "budget") { const c = pickCat(CAT_OUT, n); if (c !== "Lainnya") return c; }
@@ -371,7 +371,28 @@ function potLine(p, rows) {
 }
 
 /* ---------- Chat: tampilan dan riwayat permanen ---------- */
-const HELP = "Ketik transaksi seperti ngobrol biasa:\n• makan siang 25rb\n• bensin 50.000\n• gaji 5jt\n• kemarin beli kopi 18k\n\nPos anggaran (batas per bulan):\n• anggaran makan 1jt\n• pengeluaran yang cocok otomatis masuk pos\n\nPos tabungan (target beli barang):\n• tabungan laptop 10jt\n• setor laptop 500rb\n\nPerintah lain:\n• daftar pos: semua pos dan persentasenya\n• hapus pos laptop\n• ringkasan: posisi uang bulan ini\n• target sisa 1jt: target sisa uang bulanan\n• hapus terakhir: batalkan catatan terakhir\n\nCatatan yang salah bisa diubah di halaman Rincian (tombol ✎).";
+const HELP = "Ketik transaksi seperti ngobrol biasa:
+• makan siang 25rb
+• bensin 50.000
+• gaji 5jt
+• kemarin beli kopi 18k
+
+Pos anggaran (batas per bulan):
+• anggaran makan 1jt
+• pengeluaran yang cocok otomatis masuk pos
+
+Pos tabungan (target beli barang):
+• tabungan laptop 10jt
+• setor laptop 500rb
+
+Perintah lain:
+• daftar pos: semua pos dan persentasenya
+• hapus pos laptop
+• ringkasan: posisi uang bulan ini
+• target sisa 1jt: target sisa uang bulanan
+• hapus terakhir: batalkan catatan terakhir
+
+Catatan yang salah bisa diubah di halaman Rincian (tombol ✎).";
 
 function bubble(text, who) {
   const d = document.createElement("div");
@@ -433,7 +454,8 @@ $("#clear").onclick = async () => {
 
 /* ---------- Chat: perintah ---------- */
 function goalLine(bal) {
-  return goal > 0 ? `\nProgres target sisa uang: ${rp(Math.max(bal, 0))} dari ${rp(goal)}.` : "";
+  return goal > 0 ? `
+Progres target sisa uang: ${rp(Math.max(bal, 0))} dari ${rp(goal)}.` : "";
 }
 
 async function monthSummary() {
@@ -441,15 +463,24 @@ async function monthSummary() {
   const rows = await monthRows(ym);
   const inc = sum(rows, "income"), out = sum(rows, "expense"), sav = sum(rows, "saving"), bal = balance(rows);
   const top = topExpense(rows);
-  let r = `Posisi bulan ini:\nPemasukan ${rp(inc)}\nPengeluaran ${rp(out)}\nDitabung ${rp(sav)}\nSisa uang ${rp(bal)}`;
-  if (top) r += `\nPengeluaran terbesar: ${top.name} (${rp(top.total)}).`;
+  let r = `Posisi bulan ini:
+Pemasukan ${rp(inc)}
+Pengeluaran ${rp(out)}
+Ditabung ${rp(sav)}
+Sisa uang ${rp(bal)}`;
+  if (top) r += `
+Pengeluaran terbesar: ${top.name} (${rp(top.total)}).`;
   say(r + goalLine(bal));
 }
 
 async function listPots() {
-  if (!pots.length) return say("Belum ada pos. Contoh:\n• anggaran makan 1jt\n• tabungan laptop 10jt");
+  if (!pots.length) return say("Belum ada pos. Contoh:
+• anggaran makan 1jt
+• tabungan laptop 10jt");
   const rows = await monthRows(ymd(new Date()).slice(0, 7));
-  say("Pos kamu:\n" + pots.map(p => "• " + potLine(p, rows)).join("\n"));
+  say("Pos kamu:
+" + pots.map(p => "• " + potLine(p, rows)).join("
+"));
 }
 
 async function savePot(kind, text) {
@@ -479,16 +510,22 @@ async function deposit(text) {
   const a = parseAmount(text);
   const p = findPot(text, "saving");
   const names = pots.filter(x => x.kind === "saving").map(x => x.name);
-  if (!p) return say(names.length ? `Pos tabungan mana? Contoh: setor ${names[0].toLowerCase()} 500rb\nPos tabungan: ${names.join(", ")}` : "Belum ada pos tabungan. Buat dulu, contoh: tabungan laptop 10jt");
+  if (!p) return say(names.length ? `Pos tabungan mana? Contoh: setor ${names[0].toLowerCase()} 500rb
+Pos tabungan: ${names.join(", ")}` : "Belum ada pos tabungan. Buat dulu, contoh: tabungan laptop 10jt");
   if (!a) return say(`Tulis jumlahnya, contoh: setor ${p.name.toLowerCase()} 500rb`);
   const { error } = await sb.from("transactions").insert({ type: "saving", amount: a, category: "Tabungan", pot_id: p.id, note: text.slice(0, 120), occurred_on: ymd(new Date()) });
   if (error) return say("Gagal menyimpan: " + error.message);
   const before = savedAll[p.id] || 0, after = before + a;
   const rows = await monthRows(ymd(new Date()).slice(0, 7));
-  let r = `Disetor ${rp(a)} ke ${p.name}.\nTerkumpul ${rp(after)} dari ${rp(p.target)} (${Math.round(after / p.target * 100)}%).`;
-  if (after >= p.target && before < p.target) r += `\n\nTarget ${p.name} tercapai! Selamat, kamu berhasil menabung sampai target. Saatnya wujudkan.`;
-  else if (after < p.target) r += `\nKurang ${rp(p.target - after)} lagi.`;
-  say(r + `\nSisa uang bulan ini: ${rp(balance(rows))}.`);
+  let r = `Disetor ${rp(a)} ke ${p.name}.
+Terkumpul ${rp(after)} dari ${rp(p.target)} (${Math.round(after / p.target * 100)}%).`;
+  if (after >= p.target && before < p.target) r += `
+
+Target ${p.name} tercapai! Selamat, kamu berhasil menabung sampai target. Saatnya wujudkan.`;
+  else if (after < p.target) r += `
+Kurang ${rp(p.target - after)} lagi.`;
+  say(r + `
+Sisa uang bulan ini: ${rp(balance(rows))}.`);
   await refreshAll();
 }
 
@@ -525,31 +562,50 @@ async function addTx(text) {
   const rows = await monthRows(date.slice(0, 7));
   const inc = sum(rows, "income"), out = sum(rows, "expense"), bal = balance(rows);
   const before = type === "income" ? bal - amount : bal + amount;
-  let r = `Tercatat: ${type === "income" ? "pemasukan" : "pengeluaran"} ${rp(amount)} (${category}${pot ? ", pos " + pot.name : ""}).\nSisa uang bulan ini: ${rp(bal)}.`;
+  let r = `Tercatat: ${type === "income" ? "pemasukan" : "pengeluaran"} ${rp(amount)} (${category}${pot ? ", pos " + pot.name : ""}).
+Sisa uang bulan ini: ${rp(bal)}.`;
 
   const used = pot ? spentIn(rows, pot) : 0;
   if (goal > 0 && bal >= goal && before < goal) {
-    r += `\n\nTarget sisa uang ${rp(goal)} tercapai! Kerja bagus, kamu disiplin banget bulan ini.`;
+    r += `
+
+Target sisa uang ${rp(goal)} tercapai! Kerja bagus, kamu disiplin banget bulan ini.`;
   } else if (pot && used >= pot.target) {
-    r += `\n\nPos ${pot.name} terlewati: ${rp(used)} dari batas ${rp(pot.target)}. Tahan dulu pengeluaran di pos ini.`;
+    r += `
+
+Pos ${pot.name} terlewati: ${rp(used)} dari batas ${rp(pot.target)}. Tahan dulu pengeluaran di pos ini.`;
   } else if (pot && used >= pot.target * 0.8) {
-    r += `\n\nPos ${pot.name} hampir habis: ${rp(used)} dari ${rp(pot.target)} (${Math.round(used / pot.target * 100)}%).`;
+    r += `
+
+Pos ${pot.name} hampir habis: ${rp(used)} dari ${rp(pot.target)} (${Math.round(used / pot.target * 100)}%).`;
   } else if (pot) {
-    r += `\n\nPos ${pot.name} aman: ${Math.round(used / pot.target * 100)}% terpakai, sisa ${rp(pot.target - used)}.`;
+    r += `
+
+Pos ${pot.name} aman: ${Math.round(used / pot.target * 100)}% terpakai, sisa ${rp(pot.target - used)}.`;
   } else if (type === "expense") {
     if (inc === 0) {
-      r += "\n\nCatat juga pemasukanmu bulan ini supaya saranku pas. Contoh: gaji 5jt";
+      r += "
+
+Catat juga pemasukanmu bulan ini supaya saranku pas. Contoh: gaji 5jt";
     } else {
       const pct = Math.round(out / inc * 100);
-      if (pct >= 100) r += "\n\nPengeluaran sudah melewati pemasukan bulan ini. Tahan dulu belanja yang belum mendesak.";
-      else if (pct >= 80) r += `\n\nHati-hati, ${pct}% pemasukan sudah terpakai. Sisakan untuk kebutuhan wajib dulu.`;
+      if (pct >= 100) r += "
+
+Pengeluaran sudah melewati pemasukan bulan ini. Tahan dulu belanja yang belum mendesak.";
+      else if (pct >= 80) r += `
+
+Hati-hati, ${pct}% pemasukan sudah terpakai. Sisakan untuk kebutuhan wajib dulu.`;
       else {
         const top = topExpense(rows);
-        r += `\n\nMasih aman, baru ${pct}% pemasukan yang terpakai.` + (top ? ` Pos terbesar sejauh ini: ${top.name}.` : "");
+        r += `
+
+Masih aman, baru ${pct}% pemasukan yang terpakai.` + (top ? ` Pos terbesar sejauh ini: ${top.name}.` : "");
       }
     }
   } else {
-    r += "\n\nBagus, pemasukan tercatat." + (pots.some(p => p.kind === "saving") ? " Sisihkan sebagian ke tabunganmu, contoh: setor laptop 500rb" : " Mau mulai menabung untuk sesuatu? Contoh: tabungan laptop 10jt");
+    r += "
+
+Bagus, pemasukan tercatat." + (pots.some(p => p.kind === "saving") ? " Sisihkan sebagian ke tabunganmu, contoh: setor laptop 500rb" : " Mau mulai menabung untuk sesuatu? Contoh: tabungan laptop 10jt");
   }
   say(r + goalLine(bal));
   await refreshAll();
@@ -892,6 +948,3 @@ document.querySelectorAll(".logout").forEach(b => b.onclick = async () => { awai
 </script>
 </body>
 </html>
-```[cite: 4]
-
-Apakah tampilan dan posisi tengah di dashboard sudah pas sesuai keinginan Anda?
